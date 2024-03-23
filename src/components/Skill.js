@@ -37,10 +37,14 @@ import SectionTitle from "./SectionTitle";
 // ];
 const Skill = ({ skillsData, experiencesData, avatarUrl }) => {
 
+  // for displaying only skills which has enabled = true 
+  const enabledSkillsData = skillsData?.filter((skill) => skill?.enabled)
+
+  // removing the experiences which has the enabled.
+  const enabledExperiencesData = experiencesData?.filter((experience) => experience?.enabled)
+
   // Sorting experiences by there sequence in descending order, i.e. latest Job first.. 
-  let sortedExperienceData = experiencesData?.sort((a, b) => b.sequence - a.sequence);
-  // console.log("sortedExperienceData", sortedExperienceData)
-  // console.log("Before sortedExperienceData", experiencesData)
+  let sortedExperienceData = enabledExperiencesData?.sort((a, b) => b.sequence - a.sequence);
 
   // For changing the format of the date object to the month - year format
   const changeDateFormat = (date) => {
@@ -64,10 +68,10 @@ const Skill = ({ skillsData, experiencesData, avatarUrl }) => {
               }
             />
 
-            <div className="skill-box">
+            {enabledSkillsData && <div className="skill-box">
               <h3>My Skills</h3>
               <div className="row g-3">
-                {skillsData?.map((skill) => (
+                {enabledSkillsData?.map((skill) => (
                   <div className="col-6 col-md-4 col-lg-6" key={skill._id}>
                     <div className="feature-box-02">
                       <div className="icon">
@@ -79,16 +83,20 @@ const Skill = ({ skillsData, experiencesData, avatarUrl }) => {
                   </div>
                 ))}
               </div>
-            </div>
+            </div>}
           </div>
 
-          <div className="col-lg-6 col-xl-5 ms-auto pt-5 pt-lg-0">
+          {sortedExperienceData && <div className="col-lg-6 col-xl-5 ms-auto pt-5 pt-lg-0">
             <div className="experience-box">
               <h3>Experience</h3>
               <ul>
                 {sortedExperienceData?.map((experience) => (
                   <li key={experience._id}>
-                    <h6>{changeDateFormat(experience.startDate) + " - " + changeDateFormat(experience.endDate)}</h6>
+                    <div className="eb-right">
+                      <h6>{changeDateFormat(experience.startDate) + " - " + changeDateFormat(experience.endDate)}</h6>
+                      <span style={{ fontSize: "0.8rem" }}>{experience.forEducation ? "For Education" : ""}</span>
+
+                    </div>
                     <div className="eb-right">
                       <h5>{experience.jobTitle}</h5>
                       <span>{experience.company_name}</span>
@@ -124,7 +132,8 @@ const Skill = ({ skillsData, experiencesData, avatarUrl }) => {
                 Hire me{" "}
               </a>
             </div>
-          </div>
+          </div>}
+
         </div>
       </div>
     </section>

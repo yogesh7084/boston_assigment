@@ -39,7 +39,7 @@ const portfolioData = [
   },
 ];
 
-const Portfolio = ({projectsData}) => {
+const Portfolio = ({ projectsData }) => {
   // Sorting projects by there sequence in ascending order 
   const projectsSorted = projectsData?.sort((a, b) => a.sequence - b.sequence);
   return (
@@ -58,10 +58,29 @@ const Portfolio = ({projectsData}) => {
                 <div className="portfolio-info">
                   <h6>{project.title}</h6>
                   <span>{project.description}</span>
-                  <a href={project.image.url} className="gallery-link">
+                  <a href={project.liveurl} >
                     <i className="fas fa-arrow-right" />
                   </a>
+
                 </div>
+                <div style={{ display: "flex", justifyContent: "space-between", padding: "0 20px", marginBottom:"10px" }}>
+                  <h6>Github link</h6>
+                  <a href={project.githuburl} className="gallery-link"
+                    style={{
+                      width: "40px",
+                      height: "40px",
+                      background: "#5c64cf",
+                      color: "#fff",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      borderRadius: "50%",
+                    }}
+                  >
+                    <i className="fab fa-github" />
+                  </a>
+                </div>
+
               </div>
             </div>
           ))}

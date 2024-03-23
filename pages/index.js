@@ -19,14 +19,24 @@ const Index = () => {
   }, []);
 
   const fetchData = async () => {
-    const res = await fetch("https://portfolio-backend-30mp.onrender.com/api/v1/get/user/65b3a22c01d900e96c4219ae");
+    try {
+      const res = await fetch("https://portfolio-backend-30mp.onrender.com/api/v1/get/user/65b3a22c01d900e96c4219ae");
 
-    const data = await res.json();
-    // console.log("Data fetched");
+      if (!res.ok) {
+        // Checking if responce is ok or nott
+        alert(`HTTP error ${res.status}`);
+      }
 
-    // console.log("Data", data.user);
-    setUserData(data.user);
-  }
+      const data = await res.json();
+      // console.log("Data fetched");
+
+      // console.log("Data", data.user);
+      setUserData(data.user);
+    } catch (error) {
+      alert("Error fetching data");
+    }
+  };
+
 
   return (
     <Fragment>
@@ -38,13 +48,13 @@ const Index = () => {
       {/* Main */}
       <main className="wrapper">
         {/* Home Section */}
-        <Home about={userData?.about} />
+        {userData?.about && <Home about={userData.about} />}
         {/* {console.log(userData.about)} */}
         {/* {console.log(userData.about)} */}
         {/* End Home Section */}
 
         {/* Services Section */}
-        <Services servicesData={userData?.services} />
+        {userData?.services && <Services servicesData={userData?.services} />}
         {/* {console.log(userData.services)} */}
 
         {/* End Services Section */}
@@ -55,17 +65,17 @@ const Index = () => {
         {/* End Skill Section */}
 
         {/* Work Section */}
-        <Portfolio projectsData={userData?.projects} />
+        {userData?.projects && <Portfolio projectsData={userData?.projects} />}
         {/* {console.log(userData?.projects)} */}
         {/* End Work Section */}
 
         {/* testimonial Section */}
-        <Testimonial testimonialsData={userData?.testimonials} />
+        {userData?.testimonials && <Testimonial testimonialsData={userData?.testimonials} />}
         {/* {console.log(userData?.testimonials)} */}
         {/* End testimonial Section */}
 
         {/* Contact Section */}
-        <Contact contactDetails={userData?.about} userEmailId= {userData?.email} />
+        <Contact contactDetails={userData?.about} userEmailId={userData?.email} />
         {/* {console.log(userData?.about)} */}
         {/* End Contact Section */}
 
@@ -77,7 +87,7 @@ const Index = () => {
       {/* Main */}
 
       {/* Footer */}
-      <Footer />
+      {userData?.social_handles && <Footer socialmediaDetails={userData?.social_handles} />}
       {/* End Footer */}
 
     </Fragment>
